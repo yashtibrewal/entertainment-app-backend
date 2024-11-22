@@ -23,7 +23,8 @@ const userSchema = new mongoose.Schema({
     required: true
   },
   role: {
-    type: typeof ROLE_TYPES,
+    type: String,
+    enum: [ROLE_TYPES.ADMIN, ROLE_TYPES.CUSTOMER, ROLE_TYPES.ORGANIZER], 
     default: ROLE_TYPES.CUSTOMER
   }
 });

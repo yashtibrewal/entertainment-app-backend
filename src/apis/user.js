@@ -21,7 +21,7 @@ userRouter.post('/register', async (req, res) => {
     // Create a new user
     const newUser = new User({ name, email, password });
     await newUser.save();
-    
+
     // Return success response
     res.status(201).json({ message: MESSAGES.USER.SUCCESS.REGISTERED });
   } catch (err) {
@@ -47,15 +47,26 @@ userRouter.post('/login', async (req, res) => {
     }
 
     // Create JWT token
-    const payload = { id: user._id, name:user.name, role: user.role };
+    const payload = { id: user._id, name: user.name, role: user.role };
     // Expiration set to 1 year for better UX.
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1y' });
 
-    res.json({ token: `Bearer ${token}` });
+    res.cookie("token", token, {
+      httpOnly: false,
+      secure: process.env.mode === 'PRODUCTION',
+      expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
+      sameSite: 'strict'
+    })
+    
+    res.json({ message: 'Login successful' });
   } catch (err) {
     res.status(500).json({ message: MESSAGES.SERVER.ERROR });
   }
 });
+
+userRouter.patch('/logout', async (req, res) => {
+  res.statusCode(200);
+})
 
 // Protected route example
 userRouter.get('/profile', passport.authenticate('jwt', { session: false }), (req, res) => {
