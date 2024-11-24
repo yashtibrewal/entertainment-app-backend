@@ -51,14 +51,7 @@ userRouter.post('/login', async (req, res) => {
     // Expiration set to 1 year for better UX.
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1y' });
 
-    res.cookie("token", token, {
-      httpOnly: false,
-      secure: process.env.mode === 'PRODUCTION',
-      expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
-      sameSite: 'strict'
-    })
-    
-    res.json({ message: 'Login successful' });
+    res.json({ message: 'Login successful', token });
   } catch (err) {
     res.status(500).json({ message: MESSAGES.SERVER.ERROR });
   }
