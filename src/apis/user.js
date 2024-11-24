@@ -61,9 +61,16 @@ userRouter.patch('/logout', async (req, res) => {
   res.statusCode(200);
 })
 
-// Protected route example
 userRouter.get('/profile', passport.authenticate('jwt', { session: false }), (req, res) => {
-  res.json({ message: 'Profile accessed', user: req.user });
+
+  res.json({
+    message: 'Profile accessed', user: {
+      id: req.user.id,
+      name: req.user.name,
+      email: req.user.email,
+      role: req.user.role
+    }
+  });
 });
 
 module.exports = { userRouter };
