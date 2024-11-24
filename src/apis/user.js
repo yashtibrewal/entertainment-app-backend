@@ -47,7 +47,7 @@ userRouter.post('/login', async (req, res) => {
     }
 
     // Create JWT token
-    const payload = { id: user._id, name: user.name, role: user.role };
+    const payload = { id: user._id, name: user.name, email: user.email, role: user.role };
     // Expiration set to 1 year for better UX.
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1y' });
 
