@@ -58,7 +58,9 @@ userRouter.post('/login', async (req, res) => {
 });
 
 userRouter.patch('/logout', async (req, res) => {
-  res.statusCode(200);
+  res.json({
+    message: "User successfully logged out."
+  })
 })
 
 userRouter.get('/profile', passport.authenticate('jwt', { session: false }), (req, res) => {
