@@ -12,6 +12,8 @@ const passport = require('passport');
 const { jwtStrategy } = require('./config/passport');
 const { userRouter } = require('./apis/user');
 const MESSAGES = require('./utils/constants');
+const movieRouter = require('./apis/movie');
+const tvSeriesRouter = require('./apis/tv-series');
 // const { User } = require('./models/User');
 
 // Create an Express app
@@ -32,6 +34,8 @@ app.use(express.json());
 app.use(cors());
 
 app.use('/user', userRouter);
+app.use('/movie', movieRouter);
+app.use('/tv', tvSeriesRouter);
 
 app.use('*', (req,res) => {
   res.status(404).json({ message: MESSAGES.SERVER.NOT_FOUND });;
