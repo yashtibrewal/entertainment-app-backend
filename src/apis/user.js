@@ -49,9 +49,13 @@ userRouter.post('/login', async (req, res) => {
     // Create JWT token
     const payload = { id: user._id, name: user.name, email: user.email, role: user.role };
     // Expiration set to 1 year for better UX.
-    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1y' });
+    const entertainmentAppToken = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1y' });
 
-    res.json({ message: 'Login successful', token });
+    res.json({
+      message: 'Login successful',
+      entertainmentAppToken,
+      tmdbToken: process.env.TMDB_API_TOKEN
+    });
   } catch (err) {
     res.status(500).json({ message: MESSAGES.SERVER.ERROR });
   }
