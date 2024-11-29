@@ -37,3 +37,22 @@ tvSeriesRouter.post('/bookmark/:id', passport.authenticate('jwt', { session: fal
   }
 
 });
+
+
+tvSeriesRouter.get('/bookmarks', passport.authenticate('jwt', { session: false }), async (req, res) => {
+
+  try {
+    const query = TVBookmark.find(
+      {
+        "user_id": req.user._id
+      });
+
+    const result = await query.exec();
+
+    res.status(200).send(result);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(400);
+  }
+
+});
