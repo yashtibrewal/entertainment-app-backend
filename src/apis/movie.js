@@ -46,7 +46,8 @@ movieRouter.get('/bookmarks', passport.authenticate('jwt', { session: false }), 
 
     const query = MovieBookmark.find(
       {
-        "user_id": req.user._id
+        "user_id": req.user._id,
+        "bookmark": true,
       });
 
     const result = await query.exec();
