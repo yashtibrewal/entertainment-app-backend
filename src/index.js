@@ -37,8 +37,10 @@ app.use('/user', userRouter);
 app.use('/movie', movieRouter);
 app.use('/tv', tvSeriesRouter);
 
+
+// This will help the user to not get lost on unhandled routes.
 app.use('*', (req,res) => {
-  res.status(404).json({ message: MESSAGES.SERVER.NOT_FOUND });;
+  res.redirect("/");
 })
 
 // Start the Express app
