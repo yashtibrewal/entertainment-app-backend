@@ -11,11 +11,17 @@ const ROLE_TYPES = {
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true
+    required: [true, 'Please enter your name..!']
   },
   email: {
     type: String,
-    required: true,
+    validate: {
+      validator: function(v) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+      },
+      message:"Enter a valid email address."
+    },
+    required: [true, 'Email address is required'],
     unique: true
   },
   password: {
